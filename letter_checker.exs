@@ -1,7 +1,12 @@
 defmodule LetterChecker do
-  def call(guess, secret) do
+  def initial_state(secret_letters) do
+    secret_letters
+    |> Enum.map(fn letter -> {:incorrect, letter} end)
+  end
+
+  def call(guess, secret_word) do
     guess
-    |> correct_pass(secret)
+    |> correct_pass(secret_word)
     |> partial_pass(guess)
   end
 
@@ -18,7 +23,7 @@ defmodule LetterChecker do
       {Enum.reverse(result), remainders}
   end
 
-  def compare_letter(guess, _, result, remaining_letters) do
+  def compare_letter(guess, guess, result, remaining_letters) do
     {[{:correct, to_string([guess])} | result], remaining_letters -- [guess]}
   end
 
