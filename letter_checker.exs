@@ -11,7 +11,7 @@ defmodule LetterChecker do
     {result, remainders} =
       guess
       |> Enum.zip(initial_state(secret_letter_charlist))
-      |> Enum.reduce({[], secret_letter_charlist}, fn {guess_letter, {_status, secret_letter}},
+      |> Enum.reduce({[], secret_letter_charlist}, fn {guess, {_status, secret_letter}},
                                                        {result, remaining_letters} ->
         compare_letter(guess, secret_letter, result, remaining_letters)
       end)
@@ -27,7 +27,7 @@ defmodule LetterChecker do
   end
 
   def partial_pass({letter_state, reminders}, guess) do
-    {result, reminders} =
+    {result, remainders} =
       guess
       |> String.to_charlist()
       |> Enum.zip(letter_state)
