@@ -26,7 +26,7 @@ defmodule LetterChecker do
     {[{:incorrect, to_string([guess])} | result], remaining_letters}
   end
 
-  def partial_pass({letter_state, reminders}, guess) do
+  def partial_pass({letter_state, remainders}, guess) do
     {result, remainders} =
       guess
       |> String.to_charlist()
@@ -39,7 +39,11 @@ defmodule LetterChecker do
       {Enum.reverse(result), remainders}
   end
 
-  defp partial_match(guess, _, remaining_letters, result) do
+  defp partial_match(guess, :correct, remainders, result) do
+    {[{:correct, to_string([guess])} | result], remainders}
+  end
+
+  defp partial_match(guess, _, remainders, result) do
     cond do
       Enum.member?(remainders, guess) ->
         {[{:partial, to_string([guess])} | result], remainders -- [guess]}
